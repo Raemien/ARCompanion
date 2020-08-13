@@ -1,0 +1,91 @@
+﻿using BeatSaberMarkupLanguage.Attributes;
+using BS_Utils.Utilities;
+using UnityEngine;
+
+namespace ARCompanion
+{
+    internal class PluginConfig
+    {
+        public bool RegenerateConfig = true;
+    }
+
+
+    class Settings : PersistentSingleton<Settings>
+    {
+        private Config config;
+
+        [UIAction("trigger-togglebackgrounds")]
+        public void ToggleBackgrounds(bool val)
+        {
+            GameObject camObject = ARCompanion.xrcamBehaviour.planeContainer;
+            if (val == true)
+            {
+                ARCompanion.xrcamBehaviour.InitCameraPlane("None");
+                EnvironmentHider.HideEnvironmentObjects(true, true);
+            }
+            else
+            {
+                ARCompanion.xrcamBehaviour.InitCameraPlane(SelectedWebcam);
+            }
+            camObject.SetActive(val);
+        }
+        [UIAction("hideobj-refresh")] private void RefreshHiddenObjects() => EnvironmentHider.HideEnvironmentObjects(true);
+
+        //General
+        [UIValue("enabled")]
+        public bool EnableBackgrounds
+        {
+            get => config.GetBool("General", "Enabled", true);
+            set => config.SetBool("General", "Enabled", value);
+        }
+
+        //Camera
+        public string SelectedWebcam
+        {
+            get => config.GetString("Camera", "Selected Webcam", "Default");
+            set => config.SetString("Camera", "Selected Webcam", value);
+        }
+        public float ProjectionScale
+        {
+            get => config.GetFloat("Camera", "Projection Scale", 10);
+            set => config.SetFloat("Camera", "Projection Scale", value);
+        }
+        public float ProjectionDistance
+        {
+            get => config.GetFloat("Camera", "Projection Distance", 50);
+            set => config.SetFloat("Camera", "Projection Distance", value);
+        }
+
+        //Hidden Objects
+        [UIValue("hideobj-platform")]
+        public bool HidePlatform
+        {
+            get => config.GetBool("Hidden Objects", "Hide Platform", true);
+            set => config.SetBool("Hidden Objects", "Hide Platform", value);
+        }
+        [UIValue("hideobj-fog")]
+        public bool HideFog
+        {
+            get => config.GetBool("Hidden Objects", "Hide Smoke", false);
+            set => config.SetBool("Hidden Objects", "Hide Smoke", value);
+        }
+        public bool HideMenuEnv
+        {
+            get => config.GetBool("Hidden Objects", "Hide Menu Decorations", true);
+            set => config.SetBool("Hidden Objects", "Hide Menu Decorations", value);
+        }
+        public bool HideGameEnv
+        {
+            get => config.GetBool("Hidden Objects", "Hide GameCore Decorations", true);
+            set => config.SetBool("Hidden Objects", "Hide GameCore Decorations", value);
+        }
+
+        public bool RegenerateConfig { get; internal set; }
+
+        public void Awake()
+        {
+            config = new Config("ARCompanion");
+        }
+    }
+
+}

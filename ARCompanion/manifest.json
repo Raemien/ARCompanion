@@ -1,0 +1,15 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/nike4613/ModSaber-MetadataFileSchema/master/Schema.json",
+  "author": "Raemien",
+  "description": "This mod uses any headset cameras as a make-shift Augmented/Mixed Reality setup. Useful for streamers.",
+  "features": [],
+  "gameVersion": "1.10.0",
+  "id": "ARCompanion",
+  "name": "AR Companion",
+  "version": "0.3.5",
+  "dependsOn": {
+    "BSIPA": "^4.0.5",
+    "BeatSaberMarkupLanguage": "^1.2.0",
+    "BS Utils": "^1.4.6"
+  },
+}
