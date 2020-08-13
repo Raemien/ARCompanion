@@ -32,7 +32,7 @@ namespace ARCompanion
                 }
                 if (webcamTexture != null)
                 {
-                    if (Input.GetKeyDown(KeyCode.Keypad5))
+                    if (Input.GetKeyDown(KeyCode.J))
                     {
                         RefreshWebcam();
                     }
@@ -42,6 +42,7 @@ namespace ARCompanion
                         planeObject.transform.localPosition = new Vector3(0, 0, config.ProjectionDistance);
                         planeContainer.transform.localEulerAngles = Vector3.zero;
                     }
+                    ARCompanion.xrcamBehaviour.planeContainer.SetActive(true);
                 }
 
                 string curscene = SceneManager.GetActiveScene().name;
@@ -158,6 +159,7 @@ namespace ARCompanion
                             break;
                     }
                 }
+                planeObject.SetActive(true);
                 planeObject.transform.rotation = Quaternion.Euler(90, 0, 180);
             }
             EnvironmentHider.HideEnvironmentObjects(true, newwebcam == "Auto" || newwebcam == "None" || !(config.HideGameEnv || config.HideMenuEnv));

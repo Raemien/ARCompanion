@@ -5,7 +5,7 @@
   <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2'>
     <bool-setting text='Enabled' value='enabled' on-change='enabled-onchange'></bool-setting>
   </vertical>
-  <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2'>
+  <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2' active='~enabled'>
     <increment-setting text='Projection Scale' value='projection-scale' min='10' max='200' increment='2' on-change='projectionscale-onchange'></increment-setting>
     <increment-setting text='Projection Distance' value='projection-dist' min='10' max='500' increment='10' on-change='projectiondist-onchange'></increment-setting>
     <horizontal>

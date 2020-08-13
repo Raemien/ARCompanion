@@ -17,7 +17,7 @@ namespace ARCompanion
         [UIAction("trigger-togglebackgrounds")]
         public void ToggleBackgrounds(bool val)
         {
-            GameObject camObject = ARCompanion.xrcamBehaviour.planeContainer;
+            GameObject camObject = ARCompanion.xrcamBehaviour.planeObject;
             if (val == true)
             {
                 ARCompanion.xrcamBehaviour.InitCameraPlane("None");
@@ -66,7 +66,7 @@ namespace ARCompanion
         [UIValue("hideobj-fog")]
         public bool HideFog
         {
-            get => config.GetBool("Hidden Objects", "Hide Smoke", false);
+            get => config.GetBool("Hidden Objects", "Hide Smoke", true);
             set => config.SetBool("Hidden Objects", "Hide Smoke", value);
         }
         public bool HideMenuEnv
