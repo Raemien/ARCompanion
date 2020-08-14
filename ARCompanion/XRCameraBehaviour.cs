@@ -14,6 +14,7 @@ namespace ARCompanion
         private readonly string[] dualcameraDevices = { "eTronVideo", "VIVE Pro Multimedia Camera", "VIVE Pro Camera" }; // Unable to test these myself, though I assume these are the relevant device names.
         private AssetBundle shaderAssetBundle;
         public WebCamTexture webcamTexture;
+        public Material planeMat;
         public Shader planeShader;
         public GameObject planeObject;
         public GameObject planeContainer;
@@ -38,9 +39,8 @@ namespace ARCompanion
                     }
                     if (Camera.main != null || planeContainer == null)
                     {
+                        SetCamOffsets();
                         planeContainer.transform.parent = Camera.main.transform;
-                        planeObject.transform.localPosition = new Vector3(0, 0, config.ProjectionDistance);
-                        planeContainer.transform.localEulerAngles = Vector3.zero;
                     }
                     ARCompanion.xrcamBehaviour.planeContainer.SetActive(true);
                 }
@@ -94,7 +94,6 @@ namespace ARCompanion
 
             planeObject.SetActive(true);
             Renderer planeRenderer = planeObject.GetComponent<Renderer>();
-            Material planeMat = null;
 
             Stream abStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ARCompanion.Resources.ARCam");
             byte[] assetbin = new byte[abStream.Length];
@@ -110,16 +109,7 @@ namespace ARCompanion
 
             webcamName = camname;
 
-            if (dualcameraDevices.Contains(webcamName) || dualcameraDevices.Contains(config.SelectedWebcam)) // Split dual camera textures
-            {
-                planeMat.SetTextureOffset("_Tex", new Vector2((float)0.5, 0));
-            }
-            else
-            {
-                planeMat.SetTextureOffset("_Tex", Vector2.zero);
-            }
             planeObject.transform.localEulerAngles = new Vector3(90, 0, 180);
-            planeObject.transform.localScale = Vector3.one * config.ProjectionScale;
             shaderAssetBundle.Unload(false);
             RefreshWebcam();
         }
@@ -132,7 +122,29 @@ namespace ARCompanion
             }
             planeObject.SetActive(false);
         }
-        private void RefreshWebcam(string cameraName = "") 
+        private void SetCamOffsets()
+        {
+            var config = Settings.instance;
+            float pscale = config.ProjectionScale;
+            float pdist = config.ProjectionDistance;
+
+            if (dualcameraDevices.Contains(config.SelectedWebcam) || dualcameraDevices.Contains(webcamName))
+            {
+                planeMat.SetTextureOffset("_Tex", new Vector2((float)0.5, 0));
+                planeMat.SetTextureScale("_Tex", new Vector2((float)0.5, 1));
+                planeObject.transform.localScale = new Vector3(pscale * 2, pscale, pscale);
+            }
+            else
+            {
+                planeMat.SetTextureOffset("_Tex", new Vector2(0, 0));
+                planeMat.SetTextureScale("_Tex", new Vector2(1, 1));
+                planeObject.transform.localScale = Vector3.one * pscale;
+            }
+            planeObject.transform.localScale = Vector3.one * pscale;
+            planeObject.transform.localPosition = new Vector3(0, 0, pdist);
+            planeContainer.transform.localEulerAngles = Vector3.zero;
+        }
+        private void RefreshWebcam(string cameraName = "")
         {
             var config = Settings.instance;
             string newwebcam = cameraName == "" ? config.SelectedWebcam : cameraName;
