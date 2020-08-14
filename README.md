@@ -11,5 +11,5 @@ A plugin that uses a headset-mounted camera as a make-shift Augmented/Mixed Real
 ## Camera Compatibility:
 - Most webcams reconised by Windows programs should display in-game.
 - Confirmed to work with the original HTC Vive's camera, but with lens distortion.
-- Not tested with the Valve Index's dual cameras, though let me know if it works!
+- Seems to work with the Valve Index's left camera, though the horizontal alignment isn't great.
 - Does *not* work with the Oculus Rift S IR camera.
