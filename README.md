@@ -8,6 +8,8 @@ A plugin that uses a headset-mounted camera as a make-shift Augmented/Mixed Real
 * **Selected Webcam:** The video device name to use. "eTronVideo" for the Valve Index's dual cameras.
 * **Projection Distance:** Distance in metres to move the background plane.
 * **Projection Scale:** Size in meters to scale the background plane.
+* **Position Offset X** Left/right positional modifier for the background plane.
+* **Position Offset Y** Up/down positional modifier for the background plane.
 ## Camera Compatibility:
 |Camera| Compatible
 |-------------------------------|-----------|
