@@ -1,0 +1,17 @@
+<vertical child-control-height='false'>
+  <horizontal horizontal-fit='PreferredSize' bg='panel-top' pad-left='10' pad-right='10'>
+    <text text='Camera Offsets' font-size='10' align='Center'></text>
+  </horizontal>
+  <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2'>
+    <increment-setting text='X Offset' value='projection-offset-x' min='-200' max='200' increment='2' on-change='projectionposx-onchange'></increment-setting>
+    <increment-setting text='Y Offset' value='projection-offset-y' min='-200' max='200' increment='2' on-change='projectionposy-onchange'></increment-setting>
+  </vertical>
+  <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2' active='~enabled'>
+    <increment-setting text='Projection Scale' value='projection-scale' min='10' max='200' increment='2' on-change='projectionscale-onchange'></increment-setting>
+    <increment-setting text='Projection Distance' value='projection-dist' min='10' max='500' increment='10' on-change='projectiondist-onchange'></increment-setting>
+    <horizontal>
+      <button text='Reset' on-click='reset-projection'></button>
+      <button text='Apply' on-click='apply-projection'></button>
+    </horizontal>
+  </vertical>
+</vertical>

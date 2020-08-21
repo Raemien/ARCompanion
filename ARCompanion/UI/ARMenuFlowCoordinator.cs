@@ -6,6 +6,7 @@ namespace ARCompanion
     public class ARMenuFlowCoordinator : FlowCoordinator
     {
         private ARMenuViewController bgMenuView;
+        private CameraOffsetMenu cameraOffsetView;
         private SideConfigMenuViewController sideConfigView;
 
         private void Awake()
@@ -13,6 +14,10 @@ namespace ARCompanion
             if (!bgMenuView)
             {
                 bgMenuView = BeatSaberUI.CreateViewController<ARMenuViewController>();
+            }
+            if (!cameraOffsetView)
+            {
+                cameraOffsetView = BeatSaberUI.CreateViewController<CameraOffsetMenu>();
             }
             if (!sideConfigView)
             {
@@ -26,7 +31,7 @@ namespace ARCompanion
             {
                 title = "AR Companion";
                 showBackButton = true;
-                ProvideInitialViewControllers(bgMenuView, sideConfigView);
+                ProvideInitialViewControllers(bgMenuView, sideConfigView, cameraOffsetView);
             }
         }
 
@@ -34,7 +39,6 @@ namespace ARCompanion
         {
             BeatSaberUI.MainFlowCoordinator.DismissFlowCoordinator(this, null, false);
         }
-
 
     }
 }

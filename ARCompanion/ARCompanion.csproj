@@ -172,6 +172,7 @@
     <Compile Include="EnvironmentHider.cs" />
     <Compile Include="UI\ARMenuFlowCoordinator.cs" />
     <Compile Include="UI\SideConfigMenuViewController.cs" />
+    <Compile Include="UI\CameraOffsetMenu.cs" />
     <Compile Include="UI\ARMenuViewController.cs" />
     <Compile Include="XRCameraBehaviour.cs" />
     <Compile Include="UI\Settings.cs" />
@@ -190,12 +191,15 @@
     <EmbeddedResource Include="Views\WebcamMenu.bsml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\SideConfigMenu.bsml">
+    <EmbeddedResource Include="Views\CameraOffsetMenu.bsml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ARCam" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SideConfigMenu.bsml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

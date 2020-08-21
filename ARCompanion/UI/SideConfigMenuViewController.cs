@@ -13,9 +13,6 @@ namespace ARCompanion
 
         //Values
         [UIValue("enabled")] private bool _EnableSky => Settings.instance.EnableBackgrounds;
-        [UIValue("projection-scale")] private float _ProjectionScale => Settings.instance.ProjectionScale;
-        [UIValue("projection-dist")] private float _ProjectionDistance => Settings.instance.ProjectionDistance;
-
         [UIValue("hideobj-menu")] private bool _HideArrows => Settings.instance.HideMenuEnv;
         [UIValue("hideobj-game")] private bool _HidePillars => Settings.instance.HideGameEnv;
 
@@ -26,25 +23,6 @@ namespace ARCompanion
         {
             Settings.instance.EnableBackgrounds = newval;
             Settings.instance.ToggleBackgrounds(newval);
-        }
-        [UIAction("projectionscale-onchange")]
-        private void _SetProjectionScale(float newval)
-        {
-            Settings.instance.ProjectionScale = newval;
-        }
-        [UIAction("projectiondist-onchange")]
-        private void _SetProjectionDist(float newval)
-        {
-            Settings.instance.ProjectionDistance = newval;
-        }
-        [UIAction("apply-projection")]
-        private void _ApplyProjection() => ARCompanion.xrcamBehaviour.InitCameraPlane();
-        [UIAction("reset-projection")]
-        private void _ResetProjection() 
-        {
-            Settings.instance.ProjectionDistance = 50;
-            Settings.instance.ProjectionScale = 10;
-            ARCompanion.xrcamBehaviour.InitCameraPlane();
         }
         [UIAction("hideobj-menu-onchange")]
         private void _SetHideMenuEnvs(bool newval)
