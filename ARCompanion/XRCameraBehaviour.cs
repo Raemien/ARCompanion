@@ -127,6 +127,9 @@ namespace ARCompanion
             var config = Settings.instance;
             float pscale = config.ProjectionScale;
             float pdist = config.ProjectionDistance;
+            float pposx = config.ProjectionXOffset;
+            float pposy = config.ProjectionYOffset;
+
 
             if (dualcameraDevices.Contains(config.SelectedWebcam) || dualcameraDevices.Contains(webcamName))
             {
@@ -141,7 +144,7 @@ namespace ARCompanion
                 planeObject.transform.localScale = Vector3.one * pscale;
             }
             planeObject.transform.localScale = Vector3.one * pscale;
-            planeObject.transform.localPosition = new Vector3(0, 0, pdist);
+            planeObject.transform.localPosition = new Vector3(pposx, pposy, pdist);
             planeContainer.transform.localEulerAngles = Vector3.zero;
         }
         private void RefreshWebcam(string cameraName = "")

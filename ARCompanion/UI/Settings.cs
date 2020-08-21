@@ -55,6 +55,17 @@ namespace ARCompanion
             get => config.GetFloat("Camera", "Projection Distance", 50);
             set => config.SetFloat("Camera", "Projection Distance", value);
         }
+        public float ProjectionXOffset
+        {
+            get => config.GetFloat("Camera", "Position Offset X", 0);
+            set => config.SetFloat("Camera", "Position Offset X", value);
+        }
+        public float ProjectionYOffset
+        {
+            get => config.GetFloat("Camera", "Position Offset Y", 0);
+            set => config.SetFloat("Camera", "Position Offset Y", value);
+        }
+
 
         //Hidden Objects
         [UIValue("hideobj-platform")]
