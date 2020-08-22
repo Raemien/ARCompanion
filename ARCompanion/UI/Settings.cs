@@ -42,7 +42,7 @@ namespace ARCompanion
         //Camera
         public string SelectedWebcam
         {
-            get => config.GetString("Camera", "Selected Webcam", "Default");
+            get => config.GetString("Camera", "Selected Webcam", "Auto");
             set => config.SetString("Camera", "Selected Webcam", value);
         }
         public float ProjectionScale
