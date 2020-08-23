@@ -196,10 +196,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ARCam" />
+    <EmbeddedResource Include="Views\SideConfigMenu.bsml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\SideConfigMenu.bsml" />
+    <EmbeddedResource Include="Resources\ARCam" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

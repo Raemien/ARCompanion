@@ -12,7 +12,17 @@ namespace ARCompanion
         public override string ResourceName => "ARCompanion.Views.SideConfigMenu.bsml";
 
         //Values
-        [UIValue("enabled")] private bool _EnableSky => Settings.instance.EnableBackgrounds;
+        [UIValue("enabled")]
+        private bool _EnableSky
+        {
+            get => Settings.instance.EnableBackgrounds;
+            set
+            {
+                Settings.instance.EnableBackgrounds = _EnableSky;
+                NotifyPropertyChanged();
+            }
+        }
+
         [UIValue("hideobj-menu")] private bool _HideArrows => Settings.instance.HideMenuEnv;
         [UIValue("hideobj-game")] private bool _HidePillars => Settings.instance.HideGameEnv;
 

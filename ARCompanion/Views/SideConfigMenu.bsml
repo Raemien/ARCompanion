@@ -3,7 +3,7 @@
     <text text='Camera Settings' font-size='10' align='Center'></text>
   </horizontal>
   <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2'>
-    <bool-setting text='Enabled' value='enabled' on-change='enabled-onchange'></bool-setting>
+    <bool-setting text='Enabled' value='enabled' apply-on-change='true' on-change='enabled-onchange'></bool-setting>
   </vertical>
   <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2'>
     <bool-setting text='Hide Menu Environment' value='hideobj-menu' on-change='hideobj-menu-onchange'></bool-setting>

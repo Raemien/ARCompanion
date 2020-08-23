@@ -4,14 +4,16 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 namespace ARCompanion
 {
 
     public class XRCameraBehaviour : MonoBehaviour
     {
-        private readonly string[] hmdCameras = { "Origin/MainMenuCamera", "Wrapper/Origin/MainMenuCamera", "Wrapper/Origin/MainCamera" };
-        private readonly string[] dualcameraDevices = { "eTronVideo", "VIVE Pro Multimedia Camera", "VIVE Pro Camera" }; // Unable to test these myself, though I assume these are the relevant device names.
+        public readonly string[] monocameraDevices = { "HTC Vive" };
+        public readonly string[] dualcameraDevices = { "eTronVideo", "VIVE Pro Multimedia Camera", "VIVE Pro Camera" }; // Vive Pro cameras have yet to be tested.
+        private readonly string[] cameraObjects = { "Origin/MainMenuCamera", "Wrapper/Origin/MainMenuCamera", "Wrapper/Origin/MainCamera" };
         private AssetBundle shaderAssetBundle;
         public WebCamTexture webcamTexture;
         public Material planeMat;
@@ -27,7 +29,7 @@ namespace ARCompanion
             {
                 var config = Settings.instance;
 
-                if (planeObject == null || planeContainer == null)
+                if (planeObject == null || planeContainer == null || planeMat == null)
                 {
                     InitCameraPlane(config.SelectedWebcam);
                 }
@@ -51,7 +53,7 @@ namespace ARCompanion
                 {
                     case "MenuViewControllers":
                     case "GameCore":
-                        EnvironmentHider.HideEnvironmentObjects();
+                        EnvironmentHider.HideEnvironmentObjects(true, config.SelectedWebcam == "None");
                         break;
                     default:
                         break;
@@ -67,6 +69,7 @@ namespace ARCompanion
         {
             WebCamDevice[] devices = WebCamTexture.devices;
             webcamTexture = new WebCamTexture();
+            webcamName = "";
 
             if (devices.Length > 0)
             {
@@ -95,13 +98,15 @@ namespace ARCompanion
             planeObject.SetActive(true);
             Renderer planeRenderer = planeObject.GetComponent<Renderer>();
 
-            Stream abStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ARCompanion.Resources.ARCam");
-            byte[] assetbin = new byte[abStream.Length];
-            abStream.Read(assetbin, 0, (int)abStream.Length);
-            shaderAssetBundle = AssetBundle.LoadFromMemory(assetbin);
-
-            planeShader = shaderAssetBundle.LoadAllAssets<Shader>().First();
-            planeMat = shaderAssetBundle.LoadAllAssets<Material>().First();
+            if (planeMat == null || !planeMat.HasProperty("_Tex"))
+            {
+                Stream abStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ARCompanion.Resources.ARCam");
+                byte[] assetbin = new byte[abStream.Length];
+                abStream.Read(assetbin, 0, (int)abStream.Length);
+                shaderAssetBundle = AssetBundle.LoadFromMemory(assetbin);
+                planeShader = shaderAssetBundle.LoadAllAssets<Shader>().First();
+                planeMat = shaderAssetBundle.LoadAllAssets<Material>().First();
+            }
 
             planeRenderer.material = planeMat;
             planeMat.SetTexture("_Tex", webcamTexture);
@@ -110,7 +115,10 @@ namespace ARCompanion
             webcamName = camname;
 
             planeObject.transform.localEulerAngles = new Vector3(90, 0, 180);
-            shaderAssetBundle.Unload(false);
+            if (shaderAssetBundle != null)
+            {
+                shaderAssetBundle.Unload(false);
+            }
             RefreshWebcam();
         }
 
@@ -130,6 +138,10 @@ namespace ARCompanion
             float pposx = config.ProjectionXOffset;
             float pposy = config.ProjectionYOffset;
 
+            if (config.SelectedWebcam == "None")
+            {
+                return;
+            }
 
             if (dualcameraDevices.Contains(config.SelectedWebcam) || dualcameraDevices.Contains(webcamName))
             {
@@ -154,6 +166,13 @@ namespace ARCompanion
             if (newwebcam == "Auto")
             {
                 WebCamDevice[] avaliableWebCams = WebCamTexture.devices;
+                InputDevice controllerRef = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+                string preset = "";
+                string inputRefName = "";
+                if (controllerRef != null && controllerRef.name != null)
+                {
+                    inputRefName = controllerRef.name;
+                }
                 foreach (var camera in WebCamTexture.devices)
                 {
                     switch (camera.name)
@@ -161,19 +180,23 @@ namespace ARCompanion
                         case "HTC Vive":
                             config.SelectedWebcam = camera.name;
                             newwebcam = camera.name;
+                            preset = inputRefName.Contains("Vive. Controller MV") ? "Vive Wands (HTC Vive)" : "Knuckles (HTC Vive)";
                             break;
                         case "eTronVideo":
                             config.SelectedWebcam = camera.name;
                             newwebcam = camera.name;
+                            preset = "Knuckles (Valve Index)";
                             break;
                         case "VIVE Pro Camera":
                             config.SelectedWebcam = camera.name;
                             newwebcam = camera.name;
+                            preset = "None";
                             break;
                         default:
                             break;
                     }
                 }
+                new CameraOffsetMenu().SetPreset(preset);
                 planeObject.SetActive(true);
                 planeObject.transform.rotation = Quaternion.Euler(90, 0, 180);
             }
