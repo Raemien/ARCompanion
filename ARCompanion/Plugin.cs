@@ -16,6 +16,7 @@ namespace ARCompanion
         public const string assemblyName = "ARCompanion";
 
         public static XRCameraBehaviour xrcamBehaviour;
+        public static OpenVRCameraManager ovrCameraManager;
 
         [Init]
         public ARCompanion(IPALogger logger, [IPA.Config.Config.Prefer("json")] IConfigProvider cfgProvider)
@@ -51,7 +52,10 @@ namespace ARCompanion
             EnvironmentHider.hiddenObjs = 0;
             InitBackground();
             xrcamBehaviour.hmdRef = null;
-            xrcamBehaviour.webcamTexture.Stop();
+            if (config.SelectedWebcam != "SteamVR")
+            {
+                xrcamBehaviour.webcamTexture.Stop();
+            }
             switch (newScene.name)
             {
                 case "MenuViewControllers":
@@ -74,7 +78,13 @@ namespace ARCompanion
             if (xrcamBehaviour == null)
             {
                 xrcamBehaviour = new GameObject(nameof(XRCameraBehaviour)).AddComponent<XRCameraBehaviour>();
-                GameObject.DontDestroyOnLoad(xrcamBehaviour);
+                UnityEngine.Object.DontDestroyOnLoad(xrcamBehaviour);
+            }
+            if (ovrCameraManager == null)
+            {
+                ovrCameraManager = xrcamBehaviour.gameObject.AddComponent<OpenVRCameraManager>();
+                ovrCameraManager.enabled = false;
+                UnityEngine.Object.DontDestroyOnLoad(ovrCameraManager);
             }
             xrcamBehaviour.enabled = config.EnableBackgrounds;
         }
