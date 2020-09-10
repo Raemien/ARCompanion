@@ -81,7 +81,7 @@ namespace ARCompanion
         }
 
         [UIValue("preset-options")]
-        private List<object> HardwarePresets = new object[] { "Generic", "Vive Wands (HTC Vive)", "Knuckles (HTC Vive)", "Knuckles (Valve Index)" }.ToList();
+        private List<object> HardwarePresets = new object[] { "Generic", "Vive Wands (HTC Vive)", "Knuckles (HTC Vive)", "Knuckles (Valve Index)", "OpenVR Projection" }.ToList();
 
 
         //Actions
@@ -101,6 +101,12 @@ namespace ARCompanion
                     ProjectionDistance = 70;
                     ProjectionScale = 16;
                     ProjectionX = 6;
+                    ProjectionY = -32;
+                    break;
+                case "OpenVR Projection":
+                    ProjectionDistance = 70;
+                    ProjectionScale = 36;
+                    ProjectionX = 8;
                     ProjectionY = -32;
                     break;
                 default:

@@ -59,6 +59,9 @@
     <Reference Include="Main">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Main.dll</HintPath>
     </Reference>
+    <Reference Include="SteamVR">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\SteamVR.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>True</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -170,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnvironmentHider.cs" />
+    <Compile Include="OpenVRCameraManager.cs" />
     <Compile Include="UI\ARMenuFlowCoordinator.cs" />
     <Compile Include="UI\SideConfigMenuViewController.cs" />
     <Compile Include="UI\CameraOffsetMenu.cs" />
@@ -200,6 +204,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ARCam" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Icons\auto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Icons\openvr.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
