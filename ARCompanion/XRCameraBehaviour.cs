@@ -5,7 +5,6 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
-using Valve.VR;
 
 namespace ARCompanion
 {
@@ -23,7 +22,6 @@ namespace ARCompanion
         public GameObject planeContainer;
         public GameObject hmdRef;
         public string webcamName;
-        bool hasDualCameras;
 
         private void Update()
         {
@@ -35,7 +33,7 @@ namespace ARCompanion
                 {
                     InitCameraPlane(config.SelectedWebcam);
                 }
-                if (webcamTexture != null || ARCompanion.ovrCameraManager != null)
+                if (webcamTexture != null)
                 {
                     if (Input.GetKeyDown(KeyCode.J))
                     {
@@ -69,26 +67,13 @@ namespace ARCompanion
         }
         private void Awake()
         {
-            WebCamDevice[] avaliableWebCams = WebCamTexture.devices;
+            WebCamDevice[] devices = WebCamTexture.devices;
             webcamTexture = new WebCamTexture();
-            hasDualCameras = false;
             webcamName = "";
-            foreach (var _ in avaliableWebCams.Where(webcam => dualcameraDevices.Contains(webcam.name)).Select(webcam => new { }))
-            {
-                hasDualCameras = true;
-            }
 
-            SteamVR_TrackedCamera.VideoStreamTexture camSource = SteamVR_TrackedCamera.Source(false);
-            bool openvrHasCamera = camSource.hasCamera;
-            EVRSettingsError error = EVRSettingsError.None;
-            bool cameraIsEnabled = OpenVR.Settings.GetBool(OpenVR.k_pch_Camera_Section, OpenVR.k_pch_Camera_EnableCamera_Bool, ref error);
-            if (Settings.instance.SelectedWebcam == "Auto" && cameraIsEnabled && openvrHasCamera )
+            if (devices.Length > 0)
             {
-                Settings.instance.SelectedWebcam = "SteamVR";
-                if (Settings.instance.ProjectionScale < 32)
-                {
-                    new CameraOffsetMenu().SetPreset("OpenVR Projection");
-                }
+                RefreshWebcam();
             }
         }
         public void InitCameraPlane(string camname = "")
@@ -158,7 +143,7 @@ namespace ARCompanion
                 return;
             }
 
-            if (dualcameraDevices.Contains(config.SelectedWebcam) || dualcameraDevices.Contains(webcamName) || hasDualCameras)
+            if (dualcameraDevices.Contains(config.SelectedWebcam) || dualcameraDevices.Contains(webcamName))
             {
                 planeMat.SetTextureOffset("_Tex", new Vector2((float)0.5, 0));
                 planeMat.SetTextureScale("_Tex", new Vector2((float)0.5, 1));
@@ -178,14 +163,6 @@ namespace ARCompanion
         {
             var config = Settings.instance;
             string newwebcam = cameraName == "" ? config.SelectedWebcam : cameraName;
-            bool hmdHasCamera = false;
-            OpenVR.TrackedCamera.HasCamera(OpenVR.k_unTrackedDeviceIndex_Hmd, ref hmdHasCamera);
-
-            if (ARCompanion.ovrCameraManager != null)
-            {
-                ARCompanion.ovrCameraManager.enabled = (hmdHasCamera && newwebcam == "SteamVR");
-            }
-
             if (newwebcam == "Auto")
             {
                 WebCamDevice[] avaliableWebCams = WebCamTexture.devices;
@@ -222,7 +199,6 @@ namespace ARCompanion
                 new CameraOffsetMenu().SetPreset(preset);
                 planeObject.SetActive(true);
                 planeObject.transform.rotation = Quaternion.Euler(90, 0, 180);
-                ARCompanion.ovrCameraManager.enabled = false;
             }
             EnvironmentHider.HideEnvironmentObjects(true, newwebcam == "Auto" || newwebcam == "None" || !(config.HideGameEnv || config.HideMenuEnv));
 

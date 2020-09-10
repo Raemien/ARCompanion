@@ -1,12 +1,10 @@
 ﻿using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.ViewControllers;
-using BS_Utils.Utilities;
 using HMUI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Valve.VR;
 
 namespace ARCompanion
 {
@@ -23,12 +21,6 @@ namespace ARCompanion
             {
                 string chosencam = webcamList.data[selectedrow].text;
                 Settings.instance.SelectedWebcam = chosencam;
-                if (chosencam == "SteamVR")
-                {
-                    Settings.instance.UndistortRawFeed = true;
-                    FindObjectOfType<CameraOffsetMenu>().SetProperty("DefaultPreset", "OpenVR Projection");
-                    FindObjectOfType<CameraOffsetMenu>().SetPreset("OpenVR Projection");
-                }
                 ARCompanion.xrcamBehaviour.InitCameraPlane(chosencam);
                 Logger.Log("Set camera to " + chosencam);
             }
@@ -38,32 +30,13 @@ namespace ARCompanion
         {
             if (!_WebcamList.Contains("None"))
             {
-                bool hmdHasCamera = false;
-                OpenVR.TrackedCamera.HasCamera(OpenVR.k_unTrackedDeviceIndex_Hmd, ref hmdHasCamera);
-                Texture2D autoicon = UIUtilities.LoadTextureFromResources("ARCompanion.Resources.Icons.auto.png");
+                CustomListTableData.CustomCellInfo defaultskyCellInfo = new CustomListTableData.CustomCellInfo("None", "No camera");
+                CustomListTableData.CustomCellInfo autoskyCellInfo = new CustomListTableData.CustomCellInfo("Auto", "Automatically find any headset cameras.");
 
-                CustomListTableData.CustomCellInfo defaultcamCellInfo = new CustomListTableData.CustomCellInfo("None", "No camera");
-                CustomListTableData.CustomCellInfo autocamCellInfo = new CustomListTableData.CustomCellInfo("Auto", "Automatically find any headset cameras.", autoicon);
-
-                webcamList.data.Add(defaultcamCellInfo);
-                webcamList.data.Add(autocamCellInfo);
+                webcamList.data.Add(defaultskyCellInfo);
+                webcamList.data.Add(autoskyCellInfo);
                 _WebcamList.Add("None");
                 _WebcamList.Add("Auto");
-
-                EVRSettingsError error = EVRSettingsError.None;
-                bool cameraIsEnabled = OpenVR.Settings.GetBool(OpenVR.k_pch_Camera_Section, OpenVR.k_pch_Camera_EnableCamera_Bool, ref error);
-                if (error != EVRSettingsError.None)
-                {
-                    Logger.Log("Error getting OpenVR camera settings: " + error, IPA.Logging.Logger.Level.Error);
-                }
-                else if (hmdHasCamera && cameraIsEnabled)
-                {
-                    Texture2D openvricon = UIUtilities.LoadTextureFromResources("ARCompanion.Resources.Icons.openvr.png");
-                    CustomListTableData.CustomCellInfo openvrcamCellInfo = new CustomListTableData.CustomCellInfo("SteamVR", "Use SteamVR's camera system. (Recommended)", openvricon);
-                    webcamList.data.Add(openvrcamCellInfo);
-                    _WebcamList.Add("SteamVR");
-                }
-
             }
             RefreshWebcamList();
         }

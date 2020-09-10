@@ -61,7 +61,7 @@ namespace ARCompanion
                     foreach (Renderer renderer in renderers)
                     {
                         renderer.enabled = hiddensetting || unHide;
-                        hiddenObjs += forceHide ? 1 : 0;
+                        hiddenObjs += 1;
                     }
                 }
             }

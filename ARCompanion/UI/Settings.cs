@@ -45,11 +45,6 @@ namespace ARCompanion
             get => config.GetString("Camera", "Selected Webcam", "Auto");
             set => config.SetString("Camera", "Selected Webcam", value);
         }
-        public bool UndistortRawFeed
-        {
-            get => config.GetBool("Camera", "Undistort HMD Camera", true);
-            set => config.SetBool("Camera", "Undistort HMD Camera", value);
-        }
         public float ProjectionScale
         {
             get => config.GetFloat("Camera", "Projection Scale", 10);
