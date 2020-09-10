@@ -91,19 +91,25 @@ namespace ARCompanion
         {
             switch (preset)
             {
-                case "Vive Wands (HTC Vive)":
-                    ProjectionDistance = 70; // change
-                    ProjectionScale = 16; // these
-                    ProjectionX = 0; // values
-                    ProjectionY = -26; // later!
+                case "Vive Wands (HTC Vive)": // Untested
+                    ProjectionDistance = 70;
+                    ProjectionScale = 16;
+                    ProjectionX = 0;
+                    ProjectionY = -26;
                     break;
-                case "Knuckles (HTC Vive)":
+                case "Knuckles (HTC Vive)": // Tested
                     ProjectionDistance = 70;
                     ProjectionScale = 16;
                     ProjectionX = 6;
                     ProjectionY = -32;
                     break;
-                case "OpenVR Projection":
+                case "Knuckles (Valve Index)": // Tested
+                    ProjectionDistance = 60;
+                    ProjectionScale = 14;
+                    ProjectionX = 2;
+                    ProjectionY = 0;
+                    break;
+                case "OpenVR Projection": // Tested with Vive + Knuckles
                     ProjectionDistance = 70;
                     ProjectionScale = 36;
                     ProjectionX = 8;
