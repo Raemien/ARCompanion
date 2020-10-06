@@ -23,7 +23,6 @@ namespace ARCompanion
             }
         }
 
-        [UIValue("undistort")] private bool _UndistortRawFeed => Settings.instance.UndistortRawFeed;
         [UIValue("hideobj-menu")] private bool _HideArrows => Settings.instance.HideMenuEnv;
         [UIValue("hideobj-game")] private bool _HidePillars => Settings.instance.HideGameEnv;
 
@@ -34,11 +33,6 @@ namespace ARCompanion
         {
             Settings.instance.EnableBackgrounds = newval;
             Settings.instance.ToggleBackgrounds(newval);
-        }
-        [UIAction("undistort-onchange")]
-        private void _SetUndistortCameraFeed(bool newval)
-        {
-            Settings.instance.UndistortRawFeed = newval;
         }
 
         [UIAction("hideobj-menu-onchange")]
