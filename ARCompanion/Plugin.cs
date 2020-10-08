@@ -6,6 +6,7 @@ using IPA.Utilities;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 using IPALogger = IPA.Logging.Logger;
 
 namespace ARCompanion
@@ -80,7 +81,7 @@ namespace ARCompanion
                 xrcamBehaviour = new GameObject(nameof(XRCameraBehaviour)).AddComponent<XRCameraBehaviour>();
                 UnityEngine.Object.DontDestroyOnLoad(xrcamBehaviour);
             }
-            if (ovrCameraManager == null)
+            if (ovrCameraManager == null && XRSettings.loadedDeviceName == "OpenVR")
             {
                 ovrCameraManager = xrcamBehaviour.gameObject.AddComponent<OpenVRCameraManager>();
                 ovrCameraManager.enabled = false;

@@ -73,21 +73,25 @@ namespace ARCompanion
             webcamTexture = new WebCamTexture();
             hasDualCameras = false;
             webcamName = "";
+            
             foreach (var _ in avaliableWebCams.Where(webcam => dualcameraDevices.Contains(webcam.name)).Select(webcam => new { }))
             {
                 hasDualCameras = true;
             }
 
-            SteamVR_TrackedCamera.VideoStreamTexture camSource = SteamVR_TrackedCamera.Source(false);
-            bool openvrHasCamera = camSource.hasCamera;
-            EVRSettingsError error = EVRSettingsError.None;
-            bool cameraIsEnabled = OpenVR.Settings.GetBool(OpenVR.k_pch_Camera_Section, OpenVR.k_pch_Camera_EnableCamera_Bool, ref error);
-            if (Settings.instance.SelectedWebcam == "Auto" && cameraIsEnabled && openvrHasCamera )
+            if (XRSettings.loadedDeviceName == "OpenVR")
             {
-                Settings.instance.SelectedWebcam = "SteamVR";
-                if (Settings.instance.ProjectionScale < 32)
+                SteamVR_TrackedCamera.VideoStreamTexture camSource = SteamVR_TrackedCamera.Source(false);
+                bool openvrHasCamera = camSource.hasCamera;
+                EVRSettingsError error = EVRSettingsError.None;
+                bool cameraIsEnabled = OpenVR.Settings.GetBool(OpenVR.k_pch_Camera_Section, OpenVR.k_pch_Camera_EnableCamera_Bool, ref error);
+                if (Settings.instance.SelectedWebcam == "Auto" && cameraIsEnabled && openvrHasCamera)
                 {
-                    new CameraOffsetMenu().SetPreset("OpenVR Projection");
+                    Settings.instance.SelectedWebcam = "SteamVR";
+                    if (Settings.instance.ProjectionScale < 32)
+                    {
+                        new CameraOffsetMenu().SetPreset("OpenVR Projection");
+                    }
                 }
             }
         }
@@ -179,11 +183,15 @@ namespace ARCompanion
             var config = Settings.instance;
             string newwebcam = cameraName == "" ? config.SelectedWebcam : cameraName;
             bool hmdHasCamera = false;
-            OpenVR.TrackedCamera.HasCamera(OpenVR.k_unTrackedDeviceIndex_Hmd, ref hmdHasCamera);
 
-            if (ARCompanion.ovrCameraManager != null)
+            if (XRSettings.loadedDeviceName == "OpenVR")
             {
-                ARCompanion.ovrCameraManager.enabled = (hmdHasCamera && newwebcam == "SteamVR");
+                OpenVR.TrackedCamera.HasCamera(OpenVR.k_unTrackedDeviceIndex_Hmd, ref hmdHasCamera);
+
+                if (ARCompanion.ovrCameraManager != null)
+                {
+                    ARCompanion.ovrCameraManager.enabled = (hmdHasCamera && newwebcam == "SteamVR");
+                }
             }
 
             if (newwebcam == "Auto")
