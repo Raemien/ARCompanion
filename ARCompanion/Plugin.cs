@@ -17,7 +17,7 @@ namespace ARCompanion
         public const string assemblyName = "ARCompanion";
 
         public static XRCameraBehaviour xrcamBehaviour;
-        public static OpenVRCameraManager ovrCameraManager;
+        public static OpenVRCameraManager openvrCameraManager;
 
         [Init]
         public ARCompanion(IPALogger logger, [IPA.Config.Config.Prefer("json")] IConfigProvider cfgProvider)
@@ -81,11 +81,11 @@ namespace ARCompanion
                 xrcamBehaviour = new GameObject(nameof(XRCameraBehaviour)).AddComponent<XRCameraBehaviour>();
                 UnityEngine.Object.DontDestroyOnLoad(xrcamBehaviour);
             }
-            if (ovrCameraManager == null && XRSettings.loadedDeviceName == "OpenVR")
+            if (openvrCameraManager == null && XRSettings.loadedDeviceName == "OpenVR")
             {
-                ovrCameraManager = xrcamBehaviour.gameObject.AddComponent<OpenVRCameraManager>();
-                ovrCameraManager.enabled = false;
-                UnityEngine.Object.DontDestroyOnLoad(ovrCameraManager);
+                openvrCameraManager = xrcamBehaviour.gameObject.AddComponent<OpenVRCameraManager>();
+                openvrCameraManager.enabled = false;
+                UnityEngine.Object.DontDestroyOnLoad(openvrCameraManager);
             }
             xrcamBehaviour.enabled = config.EnableBackgrounds;
         }
