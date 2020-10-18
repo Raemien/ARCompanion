@@ -25,11 +25,11 @@ namespace ARCompanion
             }
         }
 
-        protected override void DidActivate(bool firstActivation, ActivationType activationType)
+        protected override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
         {
             if (firstActivation)
             {
-                title = "AR Companion";
+                SetTitle("AR Companion");
                 showBackButton = true;
                 ProvideInitialViewControllers(bgMenuView, sideConfigView, cameraOffsetView);
             }
@@ -37,7 +37,7 @@ namespace ARCompanion
 
         protected override void BackButtonWasPressed(ViewController topViewController)
         {
-            BeatSaberUI.MainFlowCoordinator.DismissFlowCoordinator(this, null, false);
+            BeatSaberUI.MainFlowCoordinator.DismissFlowCoordinator(this, null, ViewController.AnimationDirection.Vertical);
         }
 
     }

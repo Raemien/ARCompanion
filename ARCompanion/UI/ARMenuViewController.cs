@@ -40,7 +40,7 @@ namespace ARCompanion
             {
                 bool hmdHasCamera = false;
                 OpenVR.TrackedCamera.HasCamera(OpenVR.k_unTrackedDeviceIndex_Hmd, ref hmdHasCamera);
-                Texture2D autoicon = UIUtilities.LoadTextureFromResources("ARCompanion.Resources.Icons.auto.png");
+                Sprite autoicon = UIUtilities.LoadSpriteFromResources("ARCompanion.Resources.Icons.auto.png");
 
                 CustomListTableData.CustomCellInfo defaultcamCellInfo = new CustomListTableData.CustomCellInfo("None", "No camera");
                 CustomListTableData.CustomCellInfo autocamCellInfo = new CustomListTableData.CustomCellInfo("Auto", "Automatically find any headset cameras.", autoicon);
@@ -58,7 +58,7 @@ namespace ARCompanion
                 }
                 else if (hmdHasCamera && cameraIsEnabled)
                 {
-                    Texture2D openvricon = UIUtilities.LoadTextureFromResources("ARCompanion.Resources.Icons.openvr.png");
+                    Sprite openvricon = UIUtilities.LoadSpriteFromResources("ARCompanion.Resources.Icons.openvr.png");
                     CustomListTableData.CustomCellInfo openvrcamCellInfo = new CustomListTableData.CustomCellInfo("SteamVR", "Use SteamVR's camera system. (Recommended)", openvricon);
                     webcamList.data.Add(openvrcamCellInfo);
                     _WebcamList.Add("SteamVR");

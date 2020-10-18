@@ -14,7 +14,7 @@ namespace ARCompanion
             {
                 augMenuFlowCoordinator = BeatSaberUI.CreateFlowCoordinator<ARMenuFlowCoordinator>();
             }
-            BeatSaberUI.MainFlowCoordinator.PresentFlowCoordinator(augMenuFlowCoordinator, null, false, false);
+            BeatSaberUI.MainFlowCoordinator.PresentFlowCoordinator(augMenuFlowCoordinator, null, HMUI.ViewController.AnimationDirection.Horizontal, false);
         }
         public static void RegMenuButton()
         {

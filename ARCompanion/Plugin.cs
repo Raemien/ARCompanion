@@ -1,4 +1,5 @@
-﻿using BeatSaberMarkupLanguage.Settings;
+﻿using BeatSaberMarkupLanguage.MenuButtons;
+using BeatSaberMarkupLanguage.Settings;
 using BS_Utils.Utilities;
 using IPA;
 using IPA.Config;
