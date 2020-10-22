@@ -2,10 +2,10 @@
   <horizontal horizontal-fit='PreferredSize' bg='panel-top' pad-left='10' pad-right='10'>
     <text text='Camera Settings' font-size='10' align='Center'></text>
   </horizontal>
-  <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2'>
+  <vertical vertical-fit='PreferredSize' bg='panel-fade-gradient' pad='2'>
     <bool-setting text='Enabled' value='enabled' apply-on-change='true' on-change='enabled-onchange'></bool-setting>
   </vertical>
-  <vertical vertical-fit='PreferredSize' bg='round-rect-panel' pad='2'>
+  <vertical vertical-fit='PreferredSize' pad='2'>
     <bool-setting text='Hide Menu Environment' value='hideobj-menu' on-change='hideobj-menu-onchange'></bool-setting>
     <bool-setting text='Hide Game Environment' value='hideobj-game' on-change='hideobj-game-onchange'></bool-setting>
   </vertical>
