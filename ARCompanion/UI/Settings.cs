@@ -17,6 +17,7 @@ namespace ARCompanion
         [UIAction("trigger-togglebackgrounds")]
         public void ToggleBackgrounds(bool val)
         {
+            ARCompanion.InitBackground();
             GameObject camObject = ARCompanion.xrcamBehaviour.planeObject;
             if (val == true)
             {

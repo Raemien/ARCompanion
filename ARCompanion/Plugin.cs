@@ -73,7 +73,7 @@ namespace ARCompanion
 
         }
 
-        private void InitBackground()
+        public static void InitBackground()
         {
             string curscene = SceneManager.GetActiveScene().name;
             var config = Settings.instance;
