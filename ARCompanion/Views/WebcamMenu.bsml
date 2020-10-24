@@ -4,4 +4,16 @@
       <list id='webcam-list' expand-cell='true' select-cell='on-select-cam'></list>
     </horizontal>
     <page-button click-event='webcam-list#PageDown' direction='Down'></page-button>
+    <modal show-event='obs-nodriver' hide-event='obs-nodriver-dismiss' size-delta-x='95' size-delta-y='50' click-off-closes='true'>
+      <vertical>
+        <horizontal horizontal-fit='PreferredSize' max-width='95'>
+          <text text='To use the OBS Virtual Camera source, you&apos;ll need to add a fake webcam path to your registry.&#xA;Further instructions can be found in the OBS plugin&apos;s github page.' font-size='3' align='Center'></text>
+        </horizontal>
+        <text text='Only download and run &apos;reg_path.reg&apos;.&#xA;You do not need the installer.' font-size='6' align='Center'></text>
+        <horizontal>
+          <button text='Install OBS Fix' on-click='obs-nodriver-openpage'></button>
+          <button text='Dismiss' click-event='obs-nodriver-dismiss'></button>
+        </horizontal>
+    </vertical>
+    </modal>
   </vertical>

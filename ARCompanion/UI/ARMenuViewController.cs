@@ -1,10 +1,12 @@
 ﻿using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.Components;
+using BeatSaberMarkupLanguage.Parser;
 using BeatSaberMarkupLanguage.ViewControllers;
 using BS_Utils.Utilities;
 using HMUI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using Valve.VR;
 
@@ -15,6 +17,9 @@ namespace ARCompanion
         public override string ResourceName => "ARCompanion.Views.WebcamMenu.bsml";
         [UIComponent("webcam-list")] public CustomListTableData webcamList;
         private List<string> _WebcamList = new List<string>();
+
+        [UIParams]
+        BSMLParserParams parserParams;
 
         [UIAction("on-select-cam")]
         private void SetBackground(TableView table, int selectedrow)
@@ -29,9 +34,27 @@ namespace ARCompanion
                     FindObjectOfType<CameraOffsetMenu>().SetProperty("DefaultPreset", "OpenVR Projection");
                     FindObjectOfType<CameraOffsetMenu>().SetPreset("OpenVR Projection");
                 }
+                if (chosencam.StartsWith("OBS-Camera") )
+                {
+                    WebCamTexture wctex = new WebCamTexture();
+                    wctex.deviceName = "OBS-Camera";
+                    wctex.Play();
+                    if (!wctex.isPlaying)
+                    {
+                        parserParams.EmitEvent("obs-nodriver");
+                        Destroy(wctex);
+                    }
+                    wctex.Stop();
+                }
                 ARCompanion.xrcamBehaviour.InitCameraPlane(chosencam);
                 Logger.Log("Set camera to " + chosencam);
             }
+        }
+
+        [UIAction("obs-nodriver-openpage")]
+        private void GotoOBSCamGithub()
+        {
+            Process.Start("https://github.com/CatxFish/obs-virtual-cam/releases/tag/1.2.1");
         }
         [UIAction("#post-parse")]
         private void SetupWebcamList()
