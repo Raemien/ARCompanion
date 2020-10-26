@@ -55,7 +55,7 @@ namespace ARCompanion
                 {
                     case "MenuViewControllers":
                     case "GameCore":
-                        EnvironmentHider.HideEnvironmentObjects(true, config.SelectedWebcam == "None");
+                        EnvironmentHider.HideEnvironmentObjects(SceneManager.GetActiveScene().name == "MenuViewControllers", config.SelectedWebcam == "None");
                         break;
                     default:
                         break;
